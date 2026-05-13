@@ -2,6 +2,7 @@ import { createInterface } from "readline";
 import { writeFileSync, existsSync, mkdirSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { execSync } from "child_process";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const recipesDir = join(__dirname, "..", "src", "content", "recipes");
@@ -80,12 +81,33 @@ async function main() {
   }
 
   writeFileSync(filePath, frontmatter, "utf-8");
-  console.log(`\n✅ 菜谱已创建：${filePath}`);
-  console.log("\n推送部署：");
-  console.log("  git add .");
-  console.log('  git commit -m "添加新菜谱：' + title + '"');
-  console.log("  git push");
-  console.log("");
+  console.log(`\n✅ 菜谱已创建`);
+
+  const deploy = await ask("\n是否一键部署到 GitHub？（y/n，默认 y）：");
+  if (deploy === "n" || deploy === "N") {
+    console.log("\n后续手动部署：");
+    console.log("  git add .");
+    console.log('  git commit -m "添加新菜谱：' + title + '"');
+    console.log("  git push\n");
+  } else {
+    console.log("\n⏳ 正在提交并推送...");
+    try {
+      execSync("git add -A", { cwd: join(__dirname, ".."), stdio: "pipe" });
+      execSync(`git commit -m "添加新菜谱：${title}"`, {
+        cwd: join(__dirname, ".."),
+        stdio: "pipe",
+      });
+      execSync("git push origin main", {
+        cwd: join(__dirname, ".."),
+        stdio: "pipe",
+      });
+      console.log("✅ 已提交并推送到 GitHub，等待自动部署...");
+      console.log(`   地址：https://github.com/Kabuto32324/cookx/actions`);
+      console.log(`   网站：https://kabuto32324.github.io/cookx/`);
+    } catch (e) {
+      console.log("❌ 部署失败：" + e.stderr?.toString().trim() || e.message);
+    }
+  }
 
   rl.close();
 }
