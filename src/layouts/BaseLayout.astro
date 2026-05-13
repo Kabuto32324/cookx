@@ -1,4 +1,6 @@
 ---
+import "../styles/global.css";
+
 interface Props {
   title?: string;
 }
@@ -12,13 +14,12 @@ const { title = "我的菜谱" } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    <link rel="stylesheet" href="/src/styles/global.css" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
     <header class="site-header">
       <div class="container">
-        <h1><a href="/">🥘 我的菜谱</a></h1>
+        <h1><a href={import.meta.env.BASE_URL}>🥘 我的菜谱</a></h1>
         <p>记录那些让人幸福的味道</p>
       </div>
     </header>

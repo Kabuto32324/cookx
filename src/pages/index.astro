@@ -16,7 +16,7 @@ const categories = [...new Set(recipes.map((r) => r.data.category))];
 
   <div class="recipe-grid" id="recipe-grid">
     {recipes.map((recipe) => (
-      <a class="recipe-card" href={`/recipes/${recipe.slug}`}>
+      <a class="recipe-card" href={`${import.meta.env.BASE_URL}recipes/${recipe.slug}`}>
         <img
           class="cover"
           src={recipe.data.cover}

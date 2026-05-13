@@ -17,7 +17,7 @@ const { title, cover, category, ingredients, steps } = recipe.data;
 
 <BaseLayout title={`${title} — 我的菜谱`}>
   <div class="detail-header">
-    <a class="back" href="/">&larr; 返回所有菜谱</a>
+    <a class="back" href={import.meta.env.BASE_URL}>&larr; 返回所有菜谱</a>
     <img class="cover-large" src={cover} alt={title} />
     <h1>{title}</h1>
     <span class="category-tag">{category}</span>
