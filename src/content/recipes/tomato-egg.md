@@ -1,0 +1,25 @@
+---
+title: "番茄炒蛋"
+cover: "/images/tomato-egg.jpg"
+category: "家常菜"
+ingredients:
+  - name: "番茄"
+    amount: "3 个"
+  - name: "鸡蛋"
+    amount: "3 个"
+  - name: "葱花"
+    amount: "适量"
+  - name: "盐"
+    amount: "适量"
+  - name: "白糖"
+    amount: "少许"
+  - name: "食用油"
+    amount: "适量"
+steps:
+  - "番茄洗净切块，鸡蛋打散加少许盐搅匀"
+  - "锅中倒油烧热，倒入蛋液炒至凝固后盛出备用"
+  - "锅中再放少许油，下番茄块翻炒出汁"
+  - "加少许白糖提鲜，适量盐调味"
+  - "倒回炒好的鸡蛋，翻炒均匀"
+  - "撒上葱花即可出锅"
+---

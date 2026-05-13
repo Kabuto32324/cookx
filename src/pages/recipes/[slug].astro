@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getEntryBySlug } from "astro:content";
+
+export async function getStaticPaths() {
+  const { getCollection } = await import("astro:content");
+  const recipes = await getCollection("recipes");
+  return recipes.map((recipe) => ({
+    params: { slug: recipe.slug },
+    props: { recipe },
+  }));
+}
+
+const { recipe } = Astro.props;
+const { title, cover, category, ingredients, steps } = recipe.data;
+---
+
+<BaseLayout title={`${title} — 我的菜谱`}>
+  <div class="detail-header">
+    <a class="back" href="/">&larr; 返回所有菜谱</a>
+    <img class="cover-large" src={cover} alt={title} />
+    <h1>{title}</h1>
+    <span class="category-tag">{category}</span>
+  </div>
+
+  <div class="detail-body">
+    <section>
+      <h2>食材</h2>
+      <table class="ingredients-table">
+        <tbody>
+          {ingredients.map((item) => (
+            <tr>
+              <td>{item.name}</td>
+              <td>{item.amount}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>步骤</h2>
+      <ol class="steps-list">
+        {steps.map((step) => (
+          <li>{step}</li>
+        ))}
+      </ol>
+    </section>
+  </div>
+</BaseLayout>

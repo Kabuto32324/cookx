@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const recipes = await getCollection("recipes");
+const categories = [...new Set(recipes.map((r) => r.data.category))];
+---
+
+<BaseLayout title="我的菜谱">
+  <div class="category-bar" id="category-bar">
+    <button class="category-btn active" data-category="all">全部</button>
+    {categories.map((cat) => (
+      <button class="category-btn" data-category={cat}>{cat}</button>
+    ))}
+  </div>
+
+  <div class="recipe-grid" id="recipe-grid">
+    {recipes.map((recipe) => (
+      <a class="recipe-card" href={`/recipes/${recipe.slug}`}>
+        <img
+          class="cover"
+          src={recipe.data.cover}
+          alt={recipe.data.title}
+          loading="lazy"
+        />
+        <div class="info">
+          <div class="title">{recipe.data.title}</div>
+          <span class="category-tag">{recipe.data.category}</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll("#category-bar .category-btn");
+  const cards = document.querySelectorAll("#recipe-grid .recipe-card");
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      buttons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const cat = btn.dataset.category;
+      cards.forEach((card) => {
+        if (cat === "all") {
+          card.style.display = "";
+        } else {
+          const tag = card.querySelector(".category-tag")?.textContent;
+          card.style.display = tag === cat ? "" : "none";
+        }
+      });
+    });
+  });
+</script>
