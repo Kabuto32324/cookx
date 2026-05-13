@@ -9,7 +9,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "add": "node scripts/add-recipe.mjs"
   },
   "dependencies": {
     "astro": "4.16.19"
